@@ -61,7 +61,7 @@ impl Point3D {
     }
 
     pub fn length(&self) -> f64 {
-        self.distance(&Point3D::new(0.0, 0.0, 0.0))
+        self.length_squared().sqrt()
     }
 
     pub fn unit_vector(&self) -> Point3D {

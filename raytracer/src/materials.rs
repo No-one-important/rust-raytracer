@@ -176,7 +176,7 @@ fn test_reflectance() {
 impl Scatterable for Glass {
     fn scatter(&self, ray: &Ray, hit_record: &HitRecord) -> Option<(Option<Ray>, Srgb)> {
         let mut rng = rand::thread_rng();
-        let attenuation = Srgb::new(1.0 as f32, 1.0 as f32, 1.0 as f32);
+        let attenuation = Srgb::new(1.0_f32, 1.0_f32, 1.0_f32);
         let refraction_ratio = if hit_record.front_face {
             1.0 / self.index_of_refraction
         } else {
@@ -236,7 +236,7 @@ impl Texture {
     pub fn get_albedo(&self, u: f64, v: f64) -> Srgb {
         let mut rot = u + self.h_offset;
         if rot > 1.0 {
-            rot = rot - 1.0;
+            rot -= 1.0;
         }
         let uu = rot * (self.width) as f64;
         let vv = (1.0 - v) * (self.height - 1) as f64;

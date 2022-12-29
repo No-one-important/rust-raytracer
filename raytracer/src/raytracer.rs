@@ -96,7 +96,7 @@ fn ray_color(
                         }
                         _ => {}
                     }
-                    if lights.len() > 0
+                    if !lights.is_empty()
                         && rng.gen::<f64>() > (1.0 - lights.len() as f64 * prob)
                         && depth > (max_depth - 2)
                     {
@@ -115,11 +115,11 @@ fn ray_color(
                     match scattered_ray {
                         Some(sr) => {
                             let target_color = ray_color(&sr, scene, lights, max_depth, depth - 1);
-                            return Srgb::new(
+                            Srgb::new(
                                 clamp(light_red + albedo.red * target_color.red),
                                 clamp(light_green + albedo.green * target_color.green),
                                 clamp(light_blue + albedo.blue * target_color.blue),
-                            );
+                            )
                         }
                         None => albedo,
                     }
@@ -127,7 +127,7 @@ fn ray_color(
                 None => {
                     // don't bother bouncing absorbed rays towards lights
                     // (they would be absorbed in the opposite direction).
-                    return Srgb::new(0.0, 0.0, 0.0);
+                    Srgb::new(0.0, 0.0, 0.0)
                 }
             }
         }
@@ -136,15 +136,15 @@ fn ray_color(
             let u: f32 = clamp(0.5 * (ray.direction.unit_vector().x() as f32 + 1.0));
             match &scene.sky {
                 None => {
-                    return Srgb::new(0.0, 0.0, 0.0);
+                    Srgb::new(0.0, 0.0, 0.0)
                 }
                 Some(sky) => match &sky.texture {
                     None => {
-                        return Srgb::new(
+                        Srgb::new(
                             (1.0 - t) * 1.0 + t * 0.5,
                             (1.0 - t) * 1.0 + t * 0.7,
                             (1.0 - t) * 1.0 + t * 1.0,
-                        );
+                        )
                     }
                     Some((pixels, width, height, _)) => {
                         let x = (u * (*width - 1) as f32) as usize;
@@ -152,11 +152,11 @@ fn ray_color(
                         let pixel_red = &pixels[(y * *width + x) * 3];
                         let pixel_green = &pixels[(y * *width + x) * 3 + 1];
                         let pixel_blue = &pixels[(y * *width + x) * 3 + 2];
-                        return Srgb::new(
+                        Srgb::new(
                             0.7 * *pixel_red as f32 / 255.0,
                             0.7 * *pixel_green as f32 / 255.0,
                             0.7 * *pixel_blue as f32 / 255.0,
-                        );
+                        )
                     }
                 },
             }
@@ -217,13 +217,10 @@ fn render_line(pixels: &mut [u8], scene: &Config, lights: &Vec<Sphere>, y: usize
     }
 }
 
-fn find_lights(world: &Vec<Sphere>) -> Vec<Sphere> {
+fn find_lights(world: &[Sphere]) -> Vec<Sphere> {
     world
         .iter()
-        .filter(|s| match s.material {
-            Material::Light(_) => true,
-            _ => false,
-        })
+        .filter(|s|matches!(s.material, Material::Light(_)))
         .cloned()
         .collect()
 }
@@ -240,7 +237,7 @@ fn test_find_lights() {
             Point3D::new(0.0, 0.0, -1.0),
             0.5,
             Material::Lambertian(Lambertian::new(Srgb::new(
-                0.5 as f32, 0.5 as f32, 0.5 as f32,
+                0.5_f32, 0.5_f32, 0.5_f32,
             ))),
         ),
     ];

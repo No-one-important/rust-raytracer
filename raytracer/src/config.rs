@@ -93,7 +93,7 @@ fn test_to_json() {
             Point3D::new(0.0, 0.0, -1.0),
             0.5,
             Material::Lambertian(Lambertian::new(Srgb::new(
-                0.8 as f32, 0.3 as f32, 0.3 as f32,
+                0.8_f32, 0.3_f32, 0.3_f32,
             ))),
         )],
     };
@@ -120,7 +120,7 @@ fn test_sky_perms_to_from_json() {
             Point3D::new(0.0, 0.0, -1.0),
             0.5,
             Material::Lambertian(Lambertian::new(Srgb::new(
-                0.8 as f32, 0.3 as f32, 0.3 as f32,
+                0.8_f32, 0.3_f32, 0.3_f32,
             ))),
         )],
     };
@@ -130,7 +130,7 @@ fn test_sky_perms_to_from_json() {
 
     // This scene contains a sky texture at data/earth,jpg
     let scene_json = "{\"width\":100,\"height\":100,\"samples_per_pixel\":1,\"max_depth\":1,\"sky\":{\"texture\":\"data/earth.jpg\"},\"camera\":{\"look_from\":{\"x\":0.0,\"y\":0.0,\"z\":0.0},\"look_at\":{\"x\":0.0,\"y\":0.0,\"z\":-1.0},\"vup\":{\"x\":0.0,\"y\":1.0,\"z\":0.0},\"vfov\":90.0,\"aspect\":1.0},\"objects\":[{\"center\":{\"x\":0.0,\"y\":0.0,\"z\":-1.0},\"radius\":0.5,\"material\":{\"Lambertian\":{\"albedo\":[0.8,0.3,0.3]}}}]}";
-    let scene = serde_json::from_str::<Config>(&scene_json).expect("Unable to parse json");
+    let scene = serde_json::from_str::<Config>(scene_json).expect("Unable to parse json");
 
     assert_eq!(
         match scene.sky {
@@ -211,14 +211,14 @@ fn _make_cover_world() -> Vec<Sphere> {
         Point3D::new(-4.0, 1.0, 0.0),
         1.0,
         Material::Lambertian(Lambertian::new(Srgb::new(
-            0.4 as f32, 0.2 as f32, 0.1 as f32,
+            0.4_f32, 0.2_f32, 0.1_f32,
         ))),
     ));
     world.push(Sphere::new(
         Point3D::new(4.0, 1.0, 0.0),
         1.0,
         Material::Metal(Metal::new(
-            Srgb::new(0.7 as f32, 0.6 as f32, 0.5 as f32),
+            Srgb::new(0.7_f32, 0.6_f32, 0.5_f32),
             0.0,
         )),
     ));

@@ -16,5 +16,5 @@ fn main() {
 
     let filename = &args[2]; //format!("{}_{:0>3}.png", args[2], i);
     println!("\nRendering {}", filename);
-    render(&filename, scene);
+    render(filename, scene);
 }
