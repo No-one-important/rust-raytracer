@@ -1,4 +1,5 @@
-use image::png::PNGEncoder;
+use image::ImageEncoder;
+use image::codecs::png::PngEncoder;
 use image::ColorType;
 use palette::Pixel;
 use palette::Srgb;
@@ -34,10 +35,10 @@ fn write_image(
     filename: &str,
     pixels: &[u8],
     bounds: (usize, usize),
-) -> Result<(), std::io::Error> {
+) -> Result<(), Box<dyn std::error::Error>> {
     let output = File::create(filename)?;
-    let encoder = PNGEncoder::new(output);
-    encoder.encode(pixels, bounds.0 as u32, bounds.1 as u32, ColorType::RGB(8))?;
+    let encoder = PngEncoder::new(output);
+    encoder.write_image(pixels, bounds.0 as u32, bounds.1 as u32, ColorType::Rgb8)?;
     Ok(())
 }
 
