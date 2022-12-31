@@ -20,6 +20,7 @@ impl Ray {
     }
 }
 
+#[derive(Debug)]
 pub struct HitRecord<'material> {
     pub t: f64,
     pub point: Point3D,

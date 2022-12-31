@@ -42,6 +42,7 @@ fn u_v_from_sphere_hit_point(hit_point_on_sphere: Point3D) -> (f64, f64) {
     (u, v)
 }
 
+// 43.34%
 impl Hittable for Sphere {
     fn hit(&self, ray: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
         let oc = ray.origin - self.center;
@@ -84,6 +85,7 @@ fn test_sphere_hit() {
     let sphere = Sphere::new(center, 1.0, Material::Glass(Glass::new(1.5)));
     let ray = Ray::new(Point3D::new(0.0, 0.0, -5.0), Point3D::new(0.0, 0.0, 1.0));
     let hit = sphere.hit(&ray, 0.0, f64::INFINITY);
+    println!("{:?}", hit);
     assert_eq!(hit.unwrap().t, 4.0);
 }
 

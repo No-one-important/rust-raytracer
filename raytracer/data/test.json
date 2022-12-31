@@ -1,6 +1,6 @@
 {
-  "width": 800,
-  "height": 600,
+  "width": 1600,
+  "height": 1200,
   "samples_per_pixel": 128,
   "max_depth": 50,
   "sky": {
